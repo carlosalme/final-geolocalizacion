@@ -1,5 +1,6 @@
 package proyecto.hdp;
 
+import java.util.ArrayList;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,9 +28,22 @@ public class UsuarioTest {
             
             //generar un usuario con todos sus atributos incluyendo
             //un mensaje y una posicion
-            u.setEmail("carlos.almeidaqmy.unitec.edu.mx");
+            pos.setLat(19.90);
+            pos.setLon(100.0);
             
-            Assert.assertEquals(4, 2+2);
+            u.setEmail("carlos.almeida@my.unitec.edu.mx");
+            ArrayList<Mensaje> mensajes=new ArrayList<>();
+            mensajes.add(mensa);
+            u.setMensaje(mensajes);
+            u.setPassword("xxx");
+            u.setNickname("tato");
+            u.setPosicion(pos);
+            u.setId("primero");
+            
+            //guardar
+            Usuario guardado = repo.save(u);
+            
+            Assert.assertEquals(guardado, u);
         }
         
         @Test
@@ -46,13 +60,17 @@ public class UsuarioTest {
         
         @Test
         public void buscarTodos(){
+            Usuario encontrado= repo.findAll().get(0);
             
-            Assert.assertEquals(4, 2+2);
+            //int tamanio= repo.findAll().size();
+            
+            Assert.assertEquals("primero", encontrado.getId());
         }
         
         @Test
         public void buscarPorId(){
             
-            Assert.assertEquals(4, 2+2);
+            Usuario usuarioBuscado = repo.findById("primero").get();
+            Assert.assertEquals("primero", usuarioBuscado.getId());
         }
 }
